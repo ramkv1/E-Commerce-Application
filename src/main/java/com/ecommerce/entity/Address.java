@@ -6,6 +6,8 @@ import java.util.List;
 import com.ecommerce.entity.enums.Cities;
 import com.ecommerce.entity.enums.Country;
 import com.ecommerce.entity.enums.IndianState;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -37,6 +39,7 @@ public class Address implements Serializable {
 	private IndianState state;
 	private Integer postalCode;
 	private Country country;
+    @JsonBackReference("customer-address") // Marks this as the back part of the reference
 	@ManyToOne(targetEntity = Customer.class,cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
 	@JoinColumn(name = "cid",referencedColumnName = "customerId")
     private Customer customer; // No need for Cascade here since it's managed by Customer

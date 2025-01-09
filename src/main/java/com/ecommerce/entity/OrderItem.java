@@ -2,6 +2,8 @@ package com.ecommerce.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,9 +26,11 @@ public class OrderItem implements Serializable {
 	private Integer orderItemId;
 	private Integer quantity;
 	private Double subtotal;
+	@JsonBackReference("oders-orderItem")
 	@ManyToOne(targetEntity = Orders.class,cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
 	@JoinColumn(name = "Order_Id")
 	private Orders order;
+	@JsonBackReference("product-orderItem")
 	@ManyToOne(targetEntity = Product.class,cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
 	@JoinColumn(name = "p_Id")
 	private Product product;

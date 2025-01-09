@@ -9,12 +9,10 @@ public class UserRequest {
 	private String password;
 
 	public UserRequest(String username, String password) {
-		super();
 		this.username = username;
 		this.password = password;
 	}	
 	public UserRequest() {
-		super();
 	}
 
 	public String getUsername() {

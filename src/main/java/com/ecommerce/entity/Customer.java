@@ -3,6 +3,8 @@ package com.ecommerce.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,10 +20,10 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor	
+@AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class Customer implements Serializable{
+public class Customer implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer customerId;
@@ -33,16 +35,15 @@ public class Customer implements Serializable{
 	private String customerEmailId;
 	@NonNull
 	private String PhoneNumber;
-	@OneToMany(targetEntity = Address.class,cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY,mappedBy = "customer")
+	@JsonManagedReference("customer-address")
+	@OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
 	private List<Address> addresses;
-	@OneToMany(targetEntity = Payment.class,cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY,mappedBy = "customer")
-	private List<Payment> payments;
-	@OneToMany(targetEntity = Orders.class,cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY,mappedBy = "customer")
-	private List<Orders> orders;
-	
-	
 
+	@JsonManagedReference("customer-payment")
+	@OneToMany(targetEntity = Payment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
+	private List<Payment> payments;
+
+	@JsonManagedReference("customer-orders")
+	@OneToMany(targetEntity = Orders.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
+	private List<Orders> orders;
 }

@@ -6,11 +6,9 @@ public class UserResponse {
 	private String message;
 
 	public UserResponse() {
-		super();
 	}
 
 	public UserResponse(String token, String message) {
-		super();
 		this.token = token;
 		this.message = message;
 	}

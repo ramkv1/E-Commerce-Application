@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.ecommerce.entity.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -30,9 +32,11 @@ public class Orders implements Serializable{
 	private Date order_date;
 	private Double Total_Amount;
 	private OrderStatus status;
+	@JsonBackReference("customer-orders")
     @ManyToOne(targetEntity = Customer.class,cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
     @JoinColumn(name = "cid",referencedColumnName = "customerId")
 	private Customer customer;
+    @JsonManagedReference("oders-orderItem")
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "orderItemId")
     private List<OrderItem> orderItem;

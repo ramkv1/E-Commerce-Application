@@ -99,25 +99,31 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationManagerResolver;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final InvalidUserAuthEntryPoint entryPoint;
+    private final JwtAuthenticationFilter JwtAuthenticationFilter;;
 
     public SecurityConfig(UserDetailsService userDetailsService, 
                           BCryptPasswordEncoder passwordEncoder, 
-                          InvalidUserAuthEntryPoint entryPoint) {
+                          InvalidUserAuthEntryPoint entryPoint,
+                          JwtAuthenticationFilter JwtAuthenticationFilter) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.entryPoint = entryPoint;
+        this.JwtAuthenticationFilter = JwtAuthenticationFilter;
     }
 
     // AuthenticationManager Bean
@@ -133,10 +139,14 @@ public class SecurityConfig {
             .csrf().disable()
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/user/save", "/user/login").permitAll()
+                .requestMatchers("/customer/create","/customer/get/**",
+                		"/address/save","/address/get/**").authenticated()
                 .anyRequest().authenticated()
             )
             .exceptionHandling(ex -> ex.authenticationEntryPoint(entryPoint))
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .addFilterBefore(JwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        
         
         // Uncomment and add your filter if required
         // .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

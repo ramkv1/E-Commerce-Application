@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import com.ecommerce.auth.entity.User;
 import com.ecommerce.auth.repo.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserServiceImpl implements IUserService,UserDetailsService{
 	
@@ -42,6 +44,7 @@ public class UserServiceImpl implements IUserService,UserDetailsService{
 	
 	//-___----------------
 	@Override
+	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
 		Optional<User> opt=findByUsername(username);
 		if(opt.isEmpty())

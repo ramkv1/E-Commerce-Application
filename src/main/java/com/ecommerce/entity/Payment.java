@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import com.ecommerce.entity.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -28,6 +29,7 @@ public class Payment implements Serializable{
 	private Double amount;
 	private LocalDate paymentDate;
 	private PaymentStatus status;
+	@JsonBackReference("customer-payment")
 	@ManyToOne(targetEntity = Customer.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name = "customerId")
 	private Customer customer;

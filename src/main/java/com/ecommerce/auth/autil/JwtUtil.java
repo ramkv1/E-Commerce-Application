@@ -15,6 +15,8 @@ public class JwtUtil {
 
 	@Value("${app.secret}")
 	private String secret;
+	
+	
 
 	// Validate user name in token and Database,expDate
 	public Boolean ValidateToken(String token, String username) {
@@ -46,8 +48,12 @@ public class JwtUtil {
 
 	// Generate TOken
 	public String generateToken(String subject) {
-		return Jwts.builder().setSubject(subject).setIssuer("Amazon").setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(15)))
-				.signWith(SignatureAlgorithm.HS512, secret.getBytes()).compact();
+		return Jwts.builder()
+				.setSubject(subject)
+				.setIssuer("Amazon")
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(50)))
+				.signWith(SignatureAlgorithm.HS512, secret.getBytes())
+				.compact();
 	}
 }
