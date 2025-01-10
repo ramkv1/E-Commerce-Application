@@ -140,7 +140,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/user/save", "/user/login").permitAll()
                 .requestMatchers("/customer/create","/customer/get/**",
-                		"/address/save","/address/get/**").authenticated()
+                		"/address/save","/address/get/**",
+                		"/order/create","/order/get/**"
+                		
+                		).authenticated()
                 .anyRequest().authenticated()
             )
             .exceptionHandling(ex -> ex.authenticationEntryPoint(entryPoint))

@@ -1,7 +1,6 @@
 package com.ecommerce.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,33 +11,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.entity.Customer;
-import com.ecommerce.service.I.ICustomerService;
+import com.ecommerce.service.ICustomerService;
 
 @RestController
 @RequestMapping("/customer")
-public class CustomerController {
+public class CustomerOperationController {
 	
-	private final ICustomerService customerService;	
+	private final ICustomerService customerService;
 	
-	
-	
-	public CustomerController(ICustomerService customerService) {
+	CustomerOperationController(ICustomerService customerService) {
 		this.customerService = customerService;
 	}
-
-
-	@PostMapping(value ="/create", consumes = "application/json" ,produces = "application/json")
+	
+	@PostMapping(value ="/create", consumes = "application/json", produces = "application/json")
     @PreAuthorize("isAuthenticated()") // Ensure the user is authenticated
-	public ResponseEntity<String> createCustomer(@RequestBody Customer customer) {
-		return new ResponseEntity<String>("Customer Creates Successfully"+customerService.createCustomer(customer),HttpStatus.CREATED);
+	public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+		return new ResponseEntity<Customer>(customerService.createCustomer(customer), HttpStatus.CREATED);
 	}
 	
-	
-	@GetMapping("/get/{cid}")
+	@GetMapping(value ="/get/{id}")
     @PreAuthorize("isAuthenticated()") // Ensure the user is authenticated
-	public ResponseEntity<String> getCustDetails(@PathVariable Integer cid) {
-		return new ResponseEntity<String>("Cust Details are-->"+customerService.getCustomer(cid),HttpStatus.OK);
-		
+	public ResponseEntity<Customer> getCustomer(@PathVariable("id") Integer cid) {
+		return new ResponseEntity<Customer>(customerService.getCustomer(cid), HttpStatus.OK);
 	}
 
 }

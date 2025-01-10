@@ -39,11 +39,4 @@ public class Customer implements Serializable {
 	@OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
 	private List<Address> addresses;
 
-	@JsonManagedReference("customer-payment")
-	@OneToMany(targetEntity = Payment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
-	private List<Payment> payments;
-
-	@JsonManagedReference("customer-orders")
-	@OneToMany(targetEntity = Orders.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
-	private List<Orders> orders;
 }

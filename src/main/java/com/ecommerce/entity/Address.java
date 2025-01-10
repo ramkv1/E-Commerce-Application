@@ -7,7 +7,6 @@ import com.ecommerce.entity.enums.Cities;
 import com.ecommerce.entity.enums.Country;
 import com.ecommerce.entity.enums.IndianState;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -19,18 +18,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Address implements Serializable {
-	public Address(List<Address> addresses) {
-		// TODO Auto-generated constructor stub
-	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer addressId;
@@ -43,5 +41,12 @@ public class Address implements Serializable {
 	@ManyToOne(targetEntity = Customer.class,cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
 	@JoinColumn(name = "cid",referencedColumnName = "customerId")
     private Customer customer; // No need for Cascade here since it's managed by Customer
+	@Override
+	public String toString() {
+		return "Address [addressId=" + addressId + ", street=" + street + ", city=" + city + ", state=" + state
+				+ ", postalCode=" + postalCode + ", country=" + country + "]";
+	}
+    
+    
 
 }
