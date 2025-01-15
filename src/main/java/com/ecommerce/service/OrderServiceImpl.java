@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.entity.Orders;
-import com.ecommerce.repo.OrdersRepository;
+import com.ecommerce.repo.IOrdersRepository;
 
 @Service("orderService")
 public class OrderServiceImpl implements IOrderService{
 	
 	@Autowired
-	private OrdersRepository ordersRepository;
+	private IOrdersRepository ordersRepository;
 
 	@Override
 	public Orders createOrder(Orders order) {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.entity.OrderItem;
+import com.ecommerce.error.controller.ProductNotFoundException;
 import com.ecommerce.service.IOrderItemService;
 
 @RestController
@@ -24,8 +25,8 @@ public class OrderItemOperationsController {
 	
 	@PostMapping(value =  "/createItem" ,consumes = "application/json", produces = "application/json")
 	@PreAuthorize("isAuthenticated()")
-	public ResponseEntity<OrderItem> createOrders(@RequestBody OrderItem orderItem){
-		return new ResponseEntity<OrderItem>(iOrderItemService.addOrderItem(orderItem),HttpStatus.CREATED);
+	public ResponseEntity<OrderItem> createOrders(@RequestBody OrderItem orderedItem){
+		return new ResponseEntity<OrderItem>(iOrderItemService.addOrderItem(orderedItem),HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/getOrder/{id}")
@@ -33,5 +34,5 @@ public class OrderItemOperationsController {
 	public ResponseEntity<OrderItem> findOrderItemById(@PathVariable("id") Integer oIid){
 		return new ResponseEntity<OrderItem>(iOrderItemService.getOrderItemById(oIid),HttpStatus.OK);
 	}
-
+	
 }

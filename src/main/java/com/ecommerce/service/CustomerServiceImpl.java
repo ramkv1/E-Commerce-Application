@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.entity.Customer;
-import com.ecommerce.repo.CustomerRepository;
+import com.ecommerce.repo.ICustomerRepository;
 
 
 @Service("customerService")
 public class CustomerServiceImpl implements ICustomerService {
 	
 	@Autowired
-	private CustomerRepository customerRepository;
+	private ICustomerRepository customerRepository;
 
 	@Override
 	public Customer createCustomer(Customer customer) {

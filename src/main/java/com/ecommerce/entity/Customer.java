@@ -12,6 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,9 +36,13 @@ public class Customer implements Serializable {
 	@NonNull
 	private String customerEmailId;
 	@NonNull
-	private String PhoneNumber;
+	@Pattern(regexp = "^\\+?[0-9]*$", message = "Invalid phone number format")
+    @Size(min = 10, max = 15, message = "Phone number must be between 10 and 15 characters")
+	private String phoneNumber;
 	@JsonManagedReference("customer-address")
 	@OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
 	private List<Address> addresses;
-
+	@JsonManagedReference("customer-order")
+	@OneToMany(targetEntity = Orders.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "customer")
+	private List<Orders> orders;
 }

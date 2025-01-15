@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ecommerce.entity.Orders;
 
-public interface OrdersRepository extends JpaRepository<Orders, Integer> {
+public interface IOrdersRepository extends JpaRepository<Orders, Integer> {
 
 }
