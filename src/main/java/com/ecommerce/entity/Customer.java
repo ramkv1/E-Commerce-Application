@@ -3,7 +3,9 @@ package com.ecommerce.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.core.sym.Name;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -11,7 +13,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedStoredProcedureQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.StoredProcedureParameter;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -25,6 +30,11 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
+@NamedStoredProcedureQuery(name = "Customer.getCustomerByCustomerName",
+procedureName = "Get_Customer_By_Customer_Name",parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN,type = String.class,name = "customer_Name"),
+		@StoredProcedureParameter(mode = ParameterMode.OUT, name="CustomerId", type=Integer.class)
+})
 public class Customer implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

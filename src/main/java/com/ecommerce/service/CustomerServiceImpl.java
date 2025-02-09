@@ -25,4 +25,9 @@ public class CustomerServiceImpl implements ICustomerService {
 		return customerRepository.findById(cid).get();
 	}
 
+	@Override
+	public Integer getCustomerByCustometName(String name) {
+		return customerRepository.getCustomerByCustomerName(name);
+	}
+
 }

@@ -34,5 +34,11 @@ public class CustomerOperationController {
 	public ResponseEntity<Customer> getCustomer(@PathVariable("id") Integer cid) {
 		return new ResponseEntity<Customer>(customerService.getCustomer(cid), HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/getCustomer/{name}")
+    @PreAuthorize("isAuthenticated()") // Ensure the user is authenticated
+	public ResponseEntity<String> getCustomerByname(@PathVariable("name") String name){
+		return new ResponseEntity<String>("Customer Id--->"+customerService.getCustomerByCustometName(name),HttpStatus.OK);
+	}
 
 }
